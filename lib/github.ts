@@ -1,5 +1,4 @@
 import "server-only";
-import { cacheLife } from "next/cache";
 
 export type ContributionDay = { date: string; count: number; level: 0 | 1 | 2 | 3 | 4 };
 
@@ -22,11 +21,11 @@ async function getJson<T>(url: string): Promise<T | null> {
   }
 }
 
-/** Public contribution calendar + profile counts. Fails soft: the UI renders without live data. */
+/**
+ * Public contribution calendar + profile counts, fetched at build time (the site is a static export;
+ * a scheduled workflow rebuilds it daily). Fails soft: the UI renders without live data.
+ */
 export async function getGithubActivity(username: string): Promise<GithubActivity> {
-  "use cache";
-  cacheLife("days");
-
   const [calendar, user] = await Promise.all([
     getJson<{ total: Record<string, number>; contributions: ContributionDay[] }>(
       `https://github-contributions-api.jogruber.de/v4/${username}?y=last`,

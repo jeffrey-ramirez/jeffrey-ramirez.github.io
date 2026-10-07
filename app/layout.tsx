@@ -46,8 +46,9 @@ export const metadata: Metadata = {
     description,
     firstName: "Jeffrey",
     lastName: "Ramirez",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: title }],
   },
-  twitter: { card: "summary_large_image", title, description },
+  twitter: { card: "summary_large_image", title, description, images: ["/og.png"] },
   robots: { index: true, follow: true },
 };
 

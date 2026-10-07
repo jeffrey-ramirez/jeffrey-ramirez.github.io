@@ -1,6 +1,6 @@
 import type { NavItem, SocialLink } from "./types";
 
-export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://jeffreyramirez.dev";
+export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://jeffrey-ramirez.github.io";
 
 export const profile = {
   name: "Jeffrey Ramirez",

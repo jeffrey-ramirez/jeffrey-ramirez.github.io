@@ -3,11 +3,11 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { CircleAlert, CircleCheck, LoaderCircle, Send } from "lucide-react";
 import { useRef, useState, type FormEvent } from "react";
-import { limits, validateContact, type ContactErrors, type ContactInput } from "@/lib/contact";
+import { limits, sendContact, validateContact, type ContactErrors, type ContactInput } from "@/lib/contact";
 import { profile } from "@/data/profile";
 import { Button } from "./ui/Button";
 
-type Status = "idle" | "submitting" | "success" | "error";
+type Status = "idle" | "submitting" | "success" | "mailto" | "error";
 
 const fields: { name: keyof ContactInput; label: string; type?: string; autoComplete: string }[] = [
   { name: "name", label: "Name", autoComplete: "name" },
@@ -57,19 +57,12 @@ export function ContactForm() {
 
     setStatus("submitting");
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
-      const json = (await res.json().catch(() => ({}))) as { error?: string; errors?: ContactErrors };
-      if (!res.ok) {
-        if (json.errors) setErrors(json.errors);
-        throw new Error(json.error ?? "Something went wrong.");
+      const result = await sendContact(values, values.company, profile.email);
+      if (result === "sent") {
+        form.reset();
+        setTouched({});
       }
-      form.reset();
-      setTouched({});
-      setStatus("success");
+      setStatus(result === "sent" ? "success" : "mailto");
     } catch (err) {
       setServerMessage(err instanceof Error ? err.message : "Something went wrong.");
       setStatus("error");
@@ -158,6 +151,24 @@ export function ContactForm() {
                 className="flex items-center gap-2 text-emerald-500"
               >
                 <CircleCheck size={16} aria-hidden /> Thanks — your message is on its way. I&apos;ll reply soon.
+              </motion.p>
+            )}
+            {status === "mailto" && (
+              <motion.p
+                key="mailto"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="flex items-start gap-2 text-muted"
+              >
+                <CircleCheck size={16} aria-hidden className="mt-0.5 shrink-0 text-emerald-500" />
+                <span>
+                  Your email app should open with the message ready to send. If it doesn&apos;t, email{" "}
+                  <a className="underline underline-offset-2" href={`mailto:${profile.email}`}>
+                    {profile.email}
+                  </a>
+                  .
+                </span>
               </motion.p>
             )}
             {status === "error" && (

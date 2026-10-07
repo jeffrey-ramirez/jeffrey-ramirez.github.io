@@ -10,7 +10,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 export const limits = { name: 100, email: 200, message: 5000, minMessage: 10 } as const;
 
-/** Shared by the client form and the API route so both enforce identical rules. */
+/** Validation rules for the contact form. */
 export function validateContact(input: Partial<ContactInput>): ContactErrors {
   const errors: ContactErrors = {};
   const name = input.name?.trim() ?? "";
@@ -29,4 +29,36 @@ export function validateContact(input: Partial<ContactInput>): ContactErrors {
   else if (message.length > limits.message) errors.message = `Message must be under ${limits.message} characters.`;
 
   return errors;
+}
+
+/**
+ * Optional form backend (e.g. a Formspree endpoint). The site is a static export,
+ * so without one the form falls back to opening the visitor's email app.
+ */
+const endpoint = process.env.NEXT_PUBLIC_CONTACT_ENDPOINT;
+
+export type SendResult = "sent" | "mailto";
+
+export async function sendContact(input: ContactInput, honeypot: string, to: string): Promise<SendResult> {
+  const name = input.name.trim();
+  const email = input.email.trim();
+  const message = input.message.trim();
+
+  if (endpoint) {
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      // `_gotcha` is Formspree's honeypot field; `_replyto` sets the reply address.
+      body: JSON.stringify({ name, email, message, _replyto: email, _gotcha: honeypot }),
+    });
+    if (!res.ok) throw new Error("Your message couldn't be sent.");
+    return "sent";
+  }
+
+  const subject = encodeURIComponent(`Portfolio message from ${name}`);
+  const body = encodeURIComponent(`${message}
+
+— ${name} <${email}>`);
+  window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+  return "mailto";
 }

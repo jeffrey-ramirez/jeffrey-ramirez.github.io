@@ -1,12 +1,5 @@
 import { ArrowUp } from "lucide-react";
-import { cacheLife } from "next/cache";
 import { navItems, profile, socialLinks } from "@/data/profile";
-
-async function CopyrightYear() {
-  "use cache";
-  cacheLife("days");
-  return new Date().getFullYear();
-}
 
 export function Footer() {
   return (
@@ -45,7 +38,7 @@ export function Footer() {
       </div>
       <div className="mx-auto flex max-w-6xl items-center justify-between border-t border-border px-5 py-6 font-mono text-xs text-subtle sm:px-8">
         <p>
-          © <CopyrightYear /> {profile.name}. Built with Next.js & Tailwind CSS.
+          © {new Date().getFullYear()} {profile.name}. Built with Next.js & Tailwind CSS.
         </p>
         <a href="#top" className="inline-flex items-center gap-1.5 transition-colors hover:text-foreground">
           Back to top <ArrowUp size={12} aria-hidden />
