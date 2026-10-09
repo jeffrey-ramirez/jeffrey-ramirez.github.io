@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { profile } from "@/data/profile";
+import { logoSvg } from "@/components/ui/Logo";
 
 /*
  * Social share image, exported as /og.png. A route handler (rather than the
@@ -38,11 +39,11 @@ export function GET() {
             border: "1px solid rgba(255,255,255,0.18)",
             alignItems: "center",
             justifyContent: "center",
-            color: "#f4f4f5",
-            fontSize: 20,
+            background: "#0e1013",
           }}
         >
-          {profile.initials}
+          {/* eslint-disable-next-line @next/next/no-img-element -- rendered by ImageResponse, not the browser */}
+          <img width={40} height={40} alt="" src={`data:image/svg+xml,${encodeURIComponent(logoSvg())}`} />
         </div>
         {profile.name}
       </div>

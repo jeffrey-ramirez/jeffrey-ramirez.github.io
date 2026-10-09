@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { navItems, profile } from "@/data/profile";
 import { ThemeToggle } from "./ThemeToggle";
 import { buttonClasses } from "./ui/buttonStyles";
+import { LogoMark } from "./ui/Logo";
 
 /** Returns the id of the section currently crossing the top third of the viewport. */
 function useActiveSection() {
@@ -76,9 +77,9 @@ export function Navbar() {
         >
           <span
             aria-hidden
-            className="grid size-8 place-items-center rounded-lg border border-border-strong bg-surface font-mono text-xs text-foreground transition-colors group-hover:border-accent/60"
+            className="grid size-8 place-items-center rounded-lg border border-border-strong bg-surface transition-colors group-hover:border-accent/60"
           >
-            {profile.initials}
+            <LogoMark className="size-6 transition-transform duration-300 group-hover:scale-110" />
           </span>
           <span className="whitespace-nowrap">{profile.name}</span>
         </a>

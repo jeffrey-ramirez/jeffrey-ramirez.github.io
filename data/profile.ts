@@ -4,7 +4,6 @@ export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://jeffrey-rami
 
 export const profile = {
   name: "Jeffrey Ramirez",
-  initials: "JR",
   title: "Senior Frontend Developer",
   positioning: "Senior Frontend Developer with Full Stack Experience",
   location: "Philippines · Open to remote",
