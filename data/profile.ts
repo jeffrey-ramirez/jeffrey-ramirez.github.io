@@ -70,7 +70,7 @@ export const socialLinks: SocialLink[] = [
   },
   {
     label: "LinkedIn",
-    href: "https://www.linkedin.com/in/jeffrey-ramirez-397a56169/",
+    href: "https://www.linkedin.com/in/jeffrey-andres-ramirez/",
     handle: "in/jeffrey-ramirez-397a56169",
     icon: "linkedin",
   },
