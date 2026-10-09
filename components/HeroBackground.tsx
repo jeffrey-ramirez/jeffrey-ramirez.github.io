@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { usePointerParallax } from "./ui/usePointerParallax";
 
 /** Nodes of a small "system" graph, positioned in a 600×520 viewBox. */
 const nodes = [
@@ -34,22 +35,38 @@ export function HeroBackground() {
   const glowY = useTransform(scrollY, [0, 900], [0, 320]);
   const glow2Y = useTransform(scrollY, [0, 900], [0, 120]);
 
+  // Layers also shift with the pointer; nearer layers move further.
+  const pointer = usePointerParallax();
+  const gridPX = useTransform(pointer.x, (v) => v * -16);
+  const gridPY = useTransform(pointer.y, (v) => v * -16);
+  const glowPX = useTransform(pointer.x, (v) => v * 70);
+  const glowPY = useTransform(pointer.y, (v) => v * 50);
+  const glow2PX = useTransform(pointer.x, (v) => v * -90);
+  const glow2PY = useTransform(pointer.y, (v) => v * -70);
+
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
       {/* Grid, faded at the edges */}
-      <motion.div
-        style={reduce ? undefined : { y: gridY }}
-        className="absolute inset-0 bg-grid [mask-image:radial-gradient(ellipse_70%_60%_at_50%_35%,black,transparent)]"
-      />
+      <motion.div style={reduce ? undefined : { y: gridY }} className="absolute -inset-4">
+        <motion.div
+          style={reduce ? undefined : { x: gridPX, y: gridPY }}
+          className="absolute inset-0 bg-grid [mask-image:radial-gradient(ellipse_70%_60%_at_50%_35%,black,transparent)]"
+        />
+      </motion.div>
 
       {/* Soft color fields */}
       <motion.div style={reduce ? undefined : { y: glowY }} className="absolute -top-40 left-1/2 -translate-x-1/2">
-        <div className="h-[520px] w-[820px] rounded-full bg-accent/15 blur-[120px]" />
+        <motion.div
+          style={reduce ? undefined : { x: glowPX, y: glowPY }}
+          className="h-[520px] w-[820px] rounded-full bg-accent/15 blur-[120px]"
+        />
       </motion.div>
-      <motion.div
-        style={reduce ? undefined : { y: glow2Y }}
-        className="absolute top-40 -right-40 h-[360px] w-[360px] rounded-full bg-accent-2/10 blur-[110px]"
-      />
+      <motion.div style={reduce ? undefined : { y: glow2Y }} className="absolute top-40 -right-40">
+        <motion.div
+          style={reduce ? undefined : { x: glow2PX, y: glow2PY }}
+          className="h-[360px] w-[360px] rounded-full bg-accent-2/10 blur-[110px]"
+        />
+      </motion.div>
 
       {/* Light beams travelling along grid lines */}
       {!reduce && (

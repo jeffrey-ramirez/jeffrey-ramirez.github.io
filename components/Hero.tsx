@@ -5,6 +5,7 @@ import { ArrowDown, ArrowRight, MapPin } from "lucide-react";
 import { profile } from "@/data/profile";
 import { HeroBackground, HeroGraph } from "./HeroBackground";
 import { ButtonLink } from "./ui/Button";
+import { usePointerParallax } from "./ui/usePointerParallax";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -23,6 +24,12 @@ export function Hero() {
   const copyY = useTransform(scrollY, [0, 700], [0, 140]);
   const copyOpacity = useTransform(scrollY, [0, 600], [1, 0.15]);
   const graphY = useTransform(scrollY, [0, 700], [0, 60]);
+  // The graph sits "in front", so it follows the pointer and tilts slightly toward it.
+  const pointer = usePointerParallax();
+  const graphPX = useTransform(pointer.x, (v) => v * 36);
+  const graphPY = useTransform(pointer.y, (v) => v * 28);
+  const graphRX = useTransform(pointer.y, (v) => v * -8);
+  const graphRY = useTransform(pointer.x, (v) => v * 10);
 
   return (
     <section
@@ -108,8 +115,10 @@ export function Hero() {
         </motion.div>
 
         <motion.div variants={fadeUp} className="hidden opacity-80 lg:block">
-          <motion.div style={reduce ? undefined : { y: graphY }}>
-            <HeroGraph />
+          <motion.div style={reduce ? undefined : { y: graphY }} className="[perspective:1200px]">
+            <motion.div style={reduce ? undefined : { x: graphPX, y: graphPY, rotateX: graphRX, rotateY: graphRY }}>
+              <HeroGraph />
+            </motion.div>
           </motion.div>
         </motion.div>
       </motion.div>
