@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Check } from "lucide-react";
 import { profile } from "@/data/profile";
 import { StackVisual } from "./StackVisual";
@@ -68,6 +69,20 @@ export function About() {
         </div>
 
         <Reveal delay={0.1} className="lg:sticky lg:top-28">
+          <figure className="mb-6 flex items-center gap-5 rounded-2xl border border-border bg-surface/50 p-4">
+            <Image
+              src="/jeffrey-ramirez.webp"
+              alt={`Portrait of ${profile.name}`}
+              width={720}
+              height={720}
+              className="size-24 shrink-0 rounded-xl object-cover ring-1 ring-border sm:size-28"
+            />
+            <figcaption>
+              <p className="font-semibold">{profile.name}</p>
+              <p className="mt-0.5 text-sm text-muted">{profile.title}</p>
+              <p className="mt-2 font-mono text-xs text-subtle">{profile.location}</p>
+            </figcaption>
+          </figure>
           <StackVisual />
         </Reveal>
       </div>

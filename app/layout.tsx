@@ -66,6 +66,7 @@ const jsonLd = {
   jobTitle: profile.title,
   description,
   url: siteUrl,
+  image: `${siteUrl}/jeffrey-ramirez.webp`,
   email: `mailto:${profile.email}`,
   sameAs: socialLinks.filter((l) => l.icon !== "mail").map((l) => l.href),
   knowsAbout: ["React", "Next.js", "TypeScript", "Python", "Django REST Framework", "PostgreSQL", "Docker", "Open edX"],
