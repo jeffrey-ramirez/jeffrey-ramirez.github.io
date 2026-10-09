@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import { profile } from "@/data/profile";
-import { logoSvg } from "@/components/ui/Logo";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 
 /*
  * Social share image, exported as /og.png. A route handler (rather than the
@@ -12,7 +13,10 @@ const size = { width: 1200, height: 630 };
 // Required for route handlers under `output: "export"`.
 export const dynamic = "force-static";
 
-export function GET() {
+export async function GET() {
+  const logo = await readFile(join(process.cwd(), "assets/logo-jr.png"));
+  const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
+
   return new ImageResponse(
     <div
       style={{
@@ -30,21 +34,8 @@ export function GET() {
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 26, color: "#a1a1aa" }}>
-        <div
-          style={{
-            display: "flex",
-            width: 52,
-            height: 52,
-            borderRadius: 12,
-            border: "1px solid rgba(255,255,255,0.18)",
-            alignItems: "center",
-            justifyContent: "center",
-            background: "#0e1013",
-          }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element -- rendered by ImageResponse, not the browser */}
-          <img width={40} height={40} alt="" src={`data:image/svg+xml,${encodeURIComponent(logoSvg())}`} />
-        </div>
+        {/* eslint-disable-next-line @next/next/no-img-element -- rendered by ImageResponse, not the browser */}
+        <img width={96} height={60} alt="" src={logoSrc} />
         {profile.name}
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>

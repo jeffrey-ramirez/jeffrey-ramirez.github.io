@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { navItems, profile } from "@/data/profile";
 import { ThemeToggle } from "./ThemeToggle";
 import { buttonClasses } from "./ui/buttonStyles";
-import { LogoMark } from "./ui/Logo";
 
 /** Returns the id of the section currently crossing the top third of the viewport. */
 function useActiveSection() {
@@ -75,12 +74,14 @@ export function Navbar() {
           className="group flex items-center gap-2.5 font-semibold tracking-tight"
           onClick={() => setOpen(false)}
         >
-          <span
-            aria-hidden
-            className="grid size-8 place-items-center rounded-lg border border-border-strong bg-surface transition-colors group-hover:border-accent/60"
-          >
-            <LogoMark className="size-6 transition-transform duration-300 group-hover:scale-110" />
-          </span>
+          {/* eslint-disable-next-line @next/next/no-img-element -- static export, pre-sized asset */}
+          <img
+            src="/logo-jr.webp"
+            alt=""
+            width={480}
+            height={298}
+            className="-my-1 h-10 w-auto drop-shadow-[0_0_8px_rgb(139_149_255/0.5)] transition-transform duration-300 group-hover:-rotate-3 group-hover:scale-105 dark:drop-shadow-[0_0_14px_rgb(108_160_255/0.55)] not-dark:brightness-[0.82] not-dark:saturate-150"
+          />
           <span className="whitespace-nowrap">{profile.name}</span>
         </a>
 
