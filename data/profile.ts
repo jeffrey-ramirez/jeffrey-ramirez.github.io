@@ -71,7 +71,7 @@ export const socialLinks: SocialLink[] = [
   {
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/jeffrey-andres-ramirez/",
-    handle: "in/jeffrey-ramirez-397a56169",
+    handle: "in/jeffrey-andres-ramirez",
     icon: "linkedin",
   },
   {
