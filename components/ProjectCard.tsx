@@ -6,6 +6,7 @@ import type { MouseEvent } from "react";
 import type { Project } from "@/data/types";
 import { ProjectPreview } from "./ProjectPreview";
 import { GithubIcon } from "./ui/BrandIcons";
+import { Parallax } from "./ui/Parallax";
 
 type ProjectCardProps = {
   project: Project;
@@ -58,14 +59,18 @@ export function ProjectCard({ project, index, size = "compact" }: ProjectCardPro
               : "aspect-[16/10] border-b"
           }`}
         >
-          <div className="absolute inset-0 bg-grid opacity-70" />
+          <Parallax offset={-28} className="absolute -inset-y-10 inset-x-0">
+            <div className="h-full bg-grid opacity-70" />
+          </Parallax>
           <div className="absolute -bottom-1/3 left-1/2 h-2/3 w-2/3 -translate-x-1/2 rounded-full bg-accent/15 blur-3xl" />
           <motion.div
             className={`absolute ${large ? "inset-8 sm:inset-12" : "inset-6 sm:inset-8"}`}
             variants={{ hover: { y: -6, scale: 1.015 } }}
             transition={{ type: "spring", stiffness: 260, damping: 26 }}
           >
-            <ProjectPreview variant={project.preview} screenshots={project.screenshots} />
+            <Parallax offset={large ? 18 : 12} className="h-full">
+              <ProjectPreview variant={project.preview} screenshots={project.screenshots} />
+            </Parallax>
           </motion.div>
         </div>
       )}

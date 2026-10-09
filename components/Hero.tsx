@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, ArrowRight, MapPin } from "lucide-react";
 import { profile } from "@/data/profile";
 import { HeroBackground, HeroGraph } from "./HeroBackground";
@@ -17,6 +17,12 @@ const highlightStack = ["React", "Next.js", "TypeScript", "Django REST", "Postgr
 
 export function Hero() {
   const words = profile.hero.headline.split(" ");
+  const reduce = useReducedMotion();
+  const { scrollY } = useScroll();
+  // Copy drifts up and fades slower than the page scrolls; the graph lags behind it for depth.
+  const copyY = useTransform(scrollY, [0, 700], [0, 140]);
+  const copyOpacity = useTransform(scrollY, [0, 600], [1, 0.15]);
+  const graphY = useTransform(scrollY, [0, 700], [0, 60]);
 
   return (
     <section
@@ -32,7 +38,7 @@ export function Hero() {
         animate="show"
         variants={{ show: { transition: { staggerChildren: 0.08 } } }}
       >
-        <div>
+        <motion.div style={reduce ? undefined : { y: copyY, opacity: copyOpacity }}>
           <motion.div variants={fadeUp} className="mb-8 flex flex-wrap items-center gap-3">
             <span className="inline-flex items-center gap-2.5 rounded-full border border-border py-1.5 pr-3.5 pl-3 text-[13px] text-muted glass">
               <span className="relative flex size-2">
@@ -99,10 +105,12 @@ export function Hero() {
               </li>
             ))}
           </motion.ul>
-        </div>
+        </motion.div>
 
         <motion.div variants={fadeUp} className="hidden opacity-80 lg:block">
-          <HeroGraph />
+          <motion.div style={reduce ? undefined : { y: graphY }}>
+            <HeroGraph />
+          </motion.div>
         </motion.div>
       </motion.div>
 

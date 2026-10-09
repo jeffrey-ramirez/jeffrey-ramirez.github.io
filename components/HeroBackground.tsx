@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 
 /** Nodes of a small "system" graph, positioned in a 600×520 viewBox. */
 const nodes = [
@@ -28,15 +28,28 @@ const byId = Object.fromEntries(nodes.map((n) => [n.id, n]));
 
 export function HeroBackground() {
   const reduce = useReducedMotion();
+  // Layers drift at different speeds as the page scrolls, so the hero reads as having depth.
+  const { scrollY } = useScroll();
+  const gridY = useTransform(scrollY, [0, 900], [0, 180]);
+  const glowY = useTransform(scrollY, [0, 900], [0, 320]);
+  const glow2Y = useTransform(scrollY, [0, 900], [0, 120]);
 
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
       {/* Grid, faded at the edges */}
-      <div className="absolute inset-0 bg-grid [mask-image:radial-gradient(ellipse_70%_60%_at_50%_35%,black,transparent)]" />
+      <motion.div
+        style={reduce ? undefined : { y: gridY }}
+        className="absolute inset-0 bg-grid [mask-image:radial-gradient(ellipse_70%_60%_at_50%_35%,black,transparent)]"
+      />
 
       {/* Soft color fields */}
-      <div className="absolute -top-40 left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-accent/15 blur-[120px]" />
-      <div className="absolute top-40 -right-40 h-[360px] w-[360px] rounded-full bg-accent-2/10 blur-[110px]" />
+      <motion.div style={reduce ? undefined : { y: glowY }} className="absolute -top-40 left-1/2 -translate-x-1/2">
+        <div className="h-[520px] w-[820px] rounded-full bg-accent/15 blur-[120px]" />
+      </motion.div>
+      <motion.div
+        style={reduce ? undefined : { y: glow2Y }}
+        className="absolute top-40 -right-40 h-[360px] w-[360px] rounded-full bg-accent-2/10 blur-[110px]"
+      />
 
       {/* Light beams travelling along grid lines */}
       {!reduce && (
