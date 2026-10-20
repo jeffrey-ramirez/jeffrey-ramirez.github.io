@@ -6,7 +6,7 @@ export const profile = {
   name: "Jeffrey Ramirez",
   title: "Senior Frontend Developer",
   positioning: "Senior Frontend Developer with Full Stack Experience",
-  location: "Philippines · Open to remote",
+  location: "Philippines · Open to remote, hybrid, or on-site",
   availability: "Available for opportunities",
   email: "jepramirez18@gmail.com",
   githubUsername: "jeffrey-ramirez",
