@@ -77,11 +77,11 @@ export const experience: Experience[] = [
     technologies: ["Ionic", "REST APIs", "iOS", "Android"],
   },
   {
-    id: "dict-2020",
+    id: "dict-2017",
     role: "Mid Web Developer",
     company: "DICT / DOST-ASTI",
-    start: "August 2020",
-    end: "March 2022",
+    start: "July 2017",
+    end: "August 2020",
     summary: "National government web platforms and the Government Web Template 2.0.",
     responsibilities: [
       "Developed business.gov.ph, gov.ph, and Government Web Template 2.0",
