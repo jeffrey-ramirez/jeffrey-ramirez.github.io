@@ -7,7 +7,7 @@ import { Footer } from "@/components/Footer";
 import { Hero } from "@/components/Hero";
 import { Navbar } from "@/components/Navbar";
 import { ProjectShowcase } from "@/components/ProjectShowcase";
-import { Resume } from "@/components/Resume";
+import { ShippedFor } from "@/components/ShippedFor";
 import { Skills } from "@/components/Skills";
 
 export default function Home() {
@@ -16,13 +16,13 @@ export default function Home() {
       <Navbar />
       <main id="main">
         <Hero />
+        <ShippedFor />
+        <ProjectShowcase />
         <About />
         <Skills />
-        <ProjectShowcase />
         <ExperienceTimeline />
         <EngineeringApproach />
         <DeveloperActivity />
-        <Resume />
         <Contact />
       </main>
       <Footer />

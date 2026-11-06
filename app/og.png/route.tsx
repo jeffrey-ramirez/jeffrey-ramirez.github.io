@@ -41,7 +41,7 @@ export async function GET() {
       <div style={{ display: "flex", flexDirection: "column" }}>
         <div style={{ fontSize: 30, color: "#8b95ff", marginBottom: 20 }}>{profile.positioning}</div>
         <div style={{ fontSize: 68, fontWeight: 600, letterSpacing: -2, lineHeight: 1.05, maxWidth: 980 }}>
-          {profile.hero.headline}
+          {profile.hero.tagline.join(" ")}
         </div>
       </div>
       <div style={{ display: "flex", gap: 28, fontSize: 24, color: "#71717a" }}>

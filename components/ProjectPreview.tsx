@@ -14,7 +14,7 @@ const block = "rounded-md bg-foreground/[0.06]";
 function Window({ url, children, className = "h-full" }: { url: string; children: ReactNode; className?: string }) {
   return (
     <div
-      className={`flex w-full flex-col overflow-hidden ${className} rounded-xl border border-border-strong bg-surface shadow-card`}
+      className={`flex w-full flex-col overflow-hidden ${className} rounded-xl border border-border-strong bg-surface`}
     >
       <div className="flex items-center gap-3 border-b border-border px-3 py-2">
         <div className="flex gap-1.5">
@@ -109,7 +109,7 @@ function Terminal() {
     ["✓", "48 passed in 3.2s"],
   ];
   return (
-    <div className="flex h-full w-full flex-col overflow-hidden rounded-xl border border-border-strong bg-[#0b0c0f] shadow-card">
+    <div className="flex h-full w-full flex-col overflow-hidden rounded-xl border border-border-strong bg-[#0b0c0f]">
       <div className="flex items-center gap-2 border-b border-white/5 px-3 py-2 font-mono text-[10px] text-zinc-500">
         <span className="size-2 rounded-full bg-white/15" />
         <span className="size-2 rounded-full bg-white/15" />
@@ -190,7 +190,7 @@ function Mobile() {
       {[0, 1].map((phone) => (
         <div
           key={phone}
-          className={`relative h-[92%] max-h-[300px] w-[38%] max-w-[150px] overflow-hidden rounded-[22px] border border-border-strong bg-surface p-1.5 shadow-card ${
+          className={`relative h-[92%] max-h-[300px] w-[38%] max-w-[150px] overflow-hidden rounded-[22px] border border-border-strong bg-surface p-1.5 ${
             phone === 1 ? "hidden translate-y-6 sm:block" : ""
           }`}
         >
@@ -200,7 +200,6 @@ function Mobile() {
               <>
                 {/* Map with hazard zones */}
                 <div className="absolute inset-x-0 top-0 h-3/5 bg-[radial-gradient(circle_at_40%_45%,rgb(239_68_68/0.35),transparent_30%),radial-gradient(circle_at_65%_60%,rgb(245_158_11/0.3),transparent_35%),radial-gradient(circle_at_30%_75%,rgb(234_179_8/0.2),transparent_30%)]" />
-                <div className="absolute inset-x-0 top-0 h-3/5 bg-grid opacity-60" />
                 <div className="absolute top-[38%] left-[42%] size-3 rounded-full border-2 border-surface bg-accent shadow" />
                 <div className="absolute inset-x-2 bottom-2 space-y-1.5 rounded-xl bg-surface p-2.5">
                   <div className={`h-1.5 w-2/3 ${bar}`} />
@@ -296,7 +295,7 @@ function ScreenshotPhones({ shots }: { shots: ProjectScreenshot[] }) {
       {shots.slice(0, 2).map((shot, i) => (
         <div
           key={shot.src}
-          className={`relative aspect-[304/616] h-[96%] overflow-hidden rounded-[18px] border-[5px] border-[#16181d] bg-[#16181d] shadow-card ${
+          className={`relative aspect-[304/616] h-[96%] overflow-hidden rounded-[18px] border-[5px] border-[#16181d] bg-[#16181d] ${
             i === 1 ? "hidden translate-y-5 sm:block" : ""
           }`}
         >

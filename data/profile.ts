@@ -12,9 +12,9 @@ export const profile = {
   githubUsername: "jeffrey-ramirez",
   resumePath: "/resume.pdf",
   hero: {
-    headline: "Building fast, scalable, and user-focused digital experiences.",
-    subheadline:
-      "Senior Frontend Developer with Full Stack experience, specializing in React, Next.js, and modern web applications.",
+    tagline: ["I build fast, secure web apps,", "from first component to database."],
+    focus: "Web apps and SaaS platforms for teams that ship to real users.",
+    basedIn: ["Caloocan, Philippines,", "working everywhere."],
   },
   about: {
     lead: "I build frontends that hold up in production — and I'm comfortable going all the way down the stack to make them work.",
@@ -54,12 +54,14 @@ export const profile = {
 } as const;
 
 export const navItems: NavItem[] = [
+  { label: "Work", href: "#projects" },
   { label: "About", href: "#about" },
   { label: "Skills", href: "#skills" },
-  { label: "Projects", href: "#projects" },
   { label: "Experience", href: "#experience" },
-  { label: "Contact", href: "#contact" },
 ];
+
+/** Organizations and products shown in the strip under the hero. */
+export const shippedFor = ["Accenture", "OpsWerks", "DICT", "DOST-ASTI", "PHIVOLCS", "Great Awakener"];
 
 export const socialLinks: SocialLink[] = [
   {

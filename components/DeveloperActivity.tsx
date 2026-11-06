@@ -28,15 +28,16 @@ export async function DeveloperActivity() {
   return (
     <Section
       id="activity"
-      eyebrow="Developer Activity"
+      number="06"
+      eyebrow="Developer activity"
       title="Code, in the open."
       description="Most of my work lives in private client repositories — here's the public trail."
     >
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_340px]">
-        <Reveal className="min-w-0 rounded-2xl border border-border bg-surface/70 p-5 shadow-card sm:p-7">
+        <Reveal className="min-w-0 rounded-md border border-border p-5 bg-surface sm:p-7">
           <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
             <p className="font-mono text-sm">
-              <span className="text-accent-2">$</span> git log --author=&quot;{profile.name}&quot; --since=1.year
+              <span className="text-accent">$</span> git log --author=&quot;{profile.name}&quot; --since=1.year
             </p>
             {activity.total !== null ? (
               <p className="font-mono text-xs text-subtle">
@@ -51,10 +52,10 @@ export async function DeveloperActivity() {
 
         <Reveal
           delay={0.08}
-          className="flex flex-col rounded-2xl border border-border bg-surface/70 p-6 shadow-card sm:p-7"
+          className="flex flex-col rounded-md border border-border p-6 bg-surface sm:p-7"
         >
           <div className="flex items-center gap-3">
-            <span className="grid size-11 place-items-center rounded-xl border border-border-strong bg-surface-2">
+            <span className="grid size-11 place-items-center rounded-[3px] border border-border-strong bg-surface-2">
               <GithubIcon size={20} />
             </span>
             <div>
@@ -66,7 +67,7 @@ export async function DeveloperActivity() {
           {stats.length > 0 && (
             <dl className="mt-6 grid grid-cols-2 gap-3">
               {stats.map((s) => (
-                <div key={s.label} className="flex flex-col-reverse rounded-xl border border-border px-3.5 py-3">
+                <div key={s.label} className="flex flex-col-reverse rounded-[3px] border border-border px-3.5 py-3">
                   <dt className="mt-0.5 font-mono text-[10.5px] text-subtle">{s.label}</dt>
                   <dd className="text-2xl font-semibold tracking-tight">{s.value.toLocaleString("en-US")}</dd>
                 </div>
@@ -107,7 +108,7 @@ export async function DeveloperActivity() {
               href={`${githubUrl}/${repo.name}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex h-full flex-col rounded-2xl border border-border bg-surface/50 p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-border-strong hover:bg-surface"
+              className="group flex h-full flex-col rounded-md border border-border p-5 bg-surface transition-all duration-300 hover:-translate-y-0.5 hover:border-border-strong hover:border-foreground/40"
             >
               <div className="flex items-start justify-between gap-3">
                 <GitFork size={15} className="mt-0.5 shrink-0 text-subtle" aria-hidden />

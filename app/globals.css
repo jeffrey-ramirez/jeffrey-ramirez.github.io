@@ -2,40 +2,70 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Light theme tokens */
-:root {
-  --background: #fafafa;
-  --surface: #ffffff;
-  --surface-2: #f4f4f5;
-  --foreground: #0a0a0b;
-  --muted: #52525b;
-  --subtle: #71717a;
-  --border: rgb(10 10 11 / 0.09);
-  --border-strong: rgb(10 10 11 / 0.16);
-  --accent: #4f5bd5;
-  --accent-soft: rgb(79 91 213 / 0.1);
-  --accent-2: #0e9f8e;
-  --grid: rgb(10 10 11 / 0.05);
-  --shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px -12px rgb(0 0 0 / 0.12);
+/* Light theme tokens. .paper pins a block to them, whatever the theme or band around it. */
+:root,
+.paper {
+  --background: #f5f4f0;
+  --surface: #fbfaf7;
+  --surface-2: #e9e7e0;
+  --foreground: #1c1c1a;
+  --muted: #55554f;
+  --subtle: #6f6f68;
+  --border: rgb(28 28 26 / 0.13);
+  --border-strong: rgb(28 28 26 / 0.26);
+  --accent: #2743f0;
+  --accent-foreground: #ffffff;
+  --accent-soft: rgb(39 67 240 / 0.1);
+  --accent-2: #2743f0;
   color-scheme: light;
 }
 
-/* Dark theme tokens (default) */
+/* Dark theme tokens */
 .dark {
-  --background: #08090b;
-  --surface: #0e1013;
-  --surface-2: #14161a;
-  --foreground: #f4f4f5;
-  --muted: #a1a1aa;
-  --subtle: #71717a;
-  --border: rgb(255 255 255 / 0.07);
-  --border-strong: rgb(255 255 255 / 0.14);
-  --accent: #8b95ff;
-  --accent-soft: rgb(139 149 255 / 0.12);
-  --accent-2: #3dd6c3;
-  --grid: rgb(255 255 255 / 0.035);
-  --shadow: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 16px 40px -20px rgb(0 0 0 / 0.8);
+  --background: #121211;
+  --surface: #191918;
+  --surface-2: #232321;
+  --foreground: #f0efe9;
+  --muted: #b0b0a8;
+  --subtle: #8e8e86;
+  --border: rgb(255 255 255 / 0.11);
+  --border-strong: rgb(255 255 255 / 0.22);
+  --accent: #8a9dff;
+  --accent-foreground: #101014;
+  --accent-soft: rgb(138 157 255 / 0.14);
+  --accent-2: #8a9dff;
   color-scheme: dark;
+}
+
+/* Full-width ink band; components inside read the same tokens */
+.band-ink {
+  --background: #1b1b19;
+  --surface: #232321;
+  --surface-2: #2c2c29;
+  --foreground: #f5f4f0;
+  --muted: #b4b4ac;
+  --subtle: #92928a;
+  --border: rgb(255 255 255 / 0.14);
+  --border-strong: rgb(255 255 255 / 0.28);
+  --accent: #9aabff;
+  --accent-2: #9aabff;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.dark .band-ink {
+  --background: #0b0b0a;
+}
+
+/* Full-width cobalt band */
+.band-accent {
+  --foreground: #ffffff;
+  --muted: rgb(255 255 255 / 0.82);
+  --subtle: rgb(255 255 255 / 0.72);
+  --border: rgb(255 255 255 / 0.28);
+  --border-strong: rgb(255 255 255 / 0.5);
+  background: #2743f0;
+  color: var(--foreground);
 }
 
 @theme inline {
@@ -48,11 +78,11 @@
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
   --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
   --color-accent-soft: var(--accent-soft);
   --color-accent-2: var(--accent-2);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-manrope);
   --font-mono: var(--font-geist-mono);
-  --shadow-card: var(--shadow);
 }
 
 html {
@@ -63,18 +93,17 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-feature-settings: "ss01", "cv11";
 }
 
 ::selection {
-  background: var(--accent-soft);
-  color: var(--foreground);
+  background: var(--accent);
+  color: var(--accent-foreground);
 }
 
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
-  border-radius: 6px;
+  border-radius: 2px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -90,24 +119,19 @@ body {
   }
 }
 
-@utility bg-grid {
-  background-image:
-    linear-gradient(to right, var(--grid) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
-  background-size: 56px 56px;
+/* Small uppercase mono label used for section markers and metadata */
+@utility label {
+  font-family: var(--font-geist-mono);
+  font-size: 0.6875rem;
+  line-height: 1.5;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
-@utility text-gradient {
-  background: linear-gradient(180deg, var(--foreground) 30%, color-mix(in oklab, var(--foreground) 55%, transparent));
-  -webkit-background-clip: text;
-  background-clip: text;
+@utility text-outline {
   color: transparent;
-}
-
-@utility glass {
-  background: color-mix(in oklab, var(--surface) 72%, transparent);
-  /* Via Tailwind's utilities: hand-written prefixed + unprefixed declarations get collapsed to -webkit- only */
-  @apply backdrop-blur-[14px] backdrop-saturate-[1.4];
+  -webkit-text-stroke: 1.5px currentColor;
+  -webkit-text-stroke-color: var(--foreground);
 }
 
 @keyframes pulse-ring {
@@ -117,30 +141,6 @@ body {
   }
   100% {
     transform: scale(2.4);
-    opacity: 0;
-  }
-}
-
-@keyframes beam-x {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100vw);
-  }
-}
-
-@keyframes beam-y {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(100vh);
-  }
-}
-
-@keyframes blink {
-  50% {
     opacity: 0;
   }
 }

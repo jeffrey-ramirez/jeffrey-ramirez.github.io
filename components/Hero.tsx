@@ -1,9 +1,9 @@
 "use client";
 
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { ArrowDown, ArrowRight, MapPin } from "lucide-react";
+import { ArrowDown, Plus } from "lucide-react";
 import { profile } from "@/data/profile";
-import { HeroBackground, HeroGraph } from "./HeroBackground";
+import { HeroGraph } from "./HeroGraph";
 import { ButtonLink } from "./ui/Button";
 import { usePointerParallax } from "./ui/usePointerParallax";
 
@@ -14,17 +14,12 @@ const fadeUp = {
   show: { opacity: 1, y: 0, transition: { duration: 0.7, ease } },
 };
 
-const highlightStack = ["React", "Next.js", "TypeScript", "Django REST", "PostgreSQL", "Docker"];
-
 export function Hero() {
-  const words = profile.hero.headline.split(" ");
+  const [first, last] = profile.name.split(" ");
   const reduce = useReducedMotion();
   const { scrollY } = useScroll();
-  // Copy drifts up and fades slower than the page scrolls; the graph lags behind it for depth.
-  const copyY = useTransform(scrollY, [0, 700], [0, 140]);
-  const copyOpacity = useTransform(scrollY, [0, 600], [1, 0.15]);
-  const graphY = useTransform(scrollY, [0, 700], [0, 60]);
-  // The graph sits "in front", so it follows the pointer and tilts slightly toward it.
+  // The graph lags behind the page and leans toward the pointer, so the panel reads as having depth.
+  const graphY = useTransform(scrollY, [0, 700], [0, 70]);
   const pointer = usePointerParallax();
   const graphPX = useTransform(pointer.x, (v) => v * 36);
   const graphPY = useTransform(pointer.y, (v) => v * 28);
@@ -35,110 +30,82 @@ export function Hero() {
     <section
       id="top"
       aria-labelledby="hero-heading"
-      className="relative isolate flex min-h-[100svh] items-center pt-16"
+      className="relative isolate flex min-h-[100svh] flex-col overflow-hidden pt-16"
     >
-      <HeroBackground />
+      {/* Tinted panel the name overlaps */}
+      <div aria-hidden className="absolute inset-y-0 right-0 left-[14%] -z-10 hidden bg-surface-2 md:block" />
 
       <motion.div
-        className="relative mx-auto grid w-full max-w-6xl items-center gap-8 px-5 py-20 sm:px-8 lg:grid-cols-[minmax(0,1fr)_400px] xl:grid-cols-[minmax(0,1fr)_440px]"
+        className="relative mx-auto flex w-full max-w-6xl flex-1 flex-col px-5 pt-8 pb-10 sm:px-8"
         initial="hidden"
         animate="show"
         variants={{ show: { transition: { staggerChildren: 0.08 } } }}
       >
-        <motion.div style={reduce ? undefined : { y: copyY, opacity: copyOpacity }}>
-          <motion.div variants={fadeUp} className="mb-8 flex flex-wrap items-center gap-3">
-            <span className="inline-flex items-center gap-2.5 rounded-full border border-border py-1.5 pr-3.5 pl-3 text-[13px] text-muted glass">
-              <span className="relative flex size-2">
-                <span className="absolute inset-0 [animation:pulse-ring_2s_ease-out_infinite] rounded-full bg-emerald-500" />
-                <span className="relative size-2 rounded-full bg-emerald-500" />
-              </span>
-              {profile.availability}
-            </span>
-            <span className="inline-flex items-center gap-1.5 text-[13px] text-subtle">
-              <MapPin size={13} aria-hidden />
-              {profile.location}
-            </span>
-          </motion.div>
-
-          <motion.p variants={fadeUp} className="mb-5 font-mono text-sm text-accent">
-            {profile.name} — {profile.title}
-          </motion.p>
-
-          <h1
-            id="hero-heading"
-            className="max-w-[16ch] text-[clamp(2.6rem,6.4vw,4.75rem)] leading-[1.02] font-semibold tracking-[-0.035em] text-balance lg:text-[clamp(3rem,5vw,4.75rem)]"
-          >
-            {words.map((word, i) => (
-              <motion.span
-                key={i}
-                className="inline-block text-gradient pb-[0.08em]"
-                variants={{
-                  hidden: { opacity: 0, y: 24, filter: "blur(6px)" },
-                  show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.8, ease } },
-                }}
-              >
-                {word}
-                {i < words.length - 1 ? " " : ""}
-              </motion.span>
-            ))}
-          </h1>
-
-          <motion.p
-            variants={fadeUp}
-            className="mt-7 max-w-xl text-lg leading-relaxed text-pretty text-muted sm:text-xl"
-          >
-            {profile.hero.subheadline}
-          </motion.p>
-
-          <motion.div variants={fadeUp} className="mt-10 flex flex-wrap gap-3">
-            <ButtonLink href="#projects" size="lg">
-              View My Work
-              <ArrowRight size={16} aria-hidden className="transition-transform group-hover:translate-x-0.5" />
-            </ButtonLink>
-            <ButtonLink href="#contact" variant="secondary" size="lg">
-              Let&apos;s Connect
-            </ButtonLink>
-          </motion.div>
-
-          <motion.ul
-            variants={fadeUp}
-            aria-label="Core technologies"
-            className="mt-16 flex max-w-xl flex-wrap gap-x-5 gap-y-2 font-mono text-xs text-subtle"
-          >
-            {highlightStack.map((tech) => (
-              <li key={tech} className="flex items-center gap-2">
-                <span aria-hidden className="size-1 rounded-full bg-border-strong" />
-                {tech}
-              </li>
-            ))}
-          </motion.ul>
+        <motion.div variants={fadeUp} className="label flex justify-between gap-6 text-muted">
+          <p>{profile.title}</p>
+          <p>Portfolio — {new Date().getFullYear()}</p>
         </motion.div>
 
-        <motion.div variants={fadeUp} className="hidden opacity-80 lg:block">
-          <motion.div style={reduce ? undefined : { y: graphY }} className="[perspective:1200px]">
-            <motion.div style={reduce ? undefined : { x: graphPX, y: graphPY, rotateX: graphRX, rotateY: graphRY }}>
-              <HeroGraph />
-            </motion.div>
+        <div className="flex flex-1 flex-col justify-center py-12">
+          <motion.h1
+            id="hero-heading"
+            variants={fadeUp}
+            className="text-[clamp(4rem,14vw,11.5rem)] leading-[0.92] font-extrabold tracking-[-0.06em]"
+          >
+            {first}
+            <br />
+            {last}
+            <span aria-hidden className="ml-[0.05em] inline-block size-[0.14em] bg-accent" />
+          </motion.h1>
+
+          <motion.div variants={fadeUp} className="mt-10 flex items-start gap-4 text-lg font-medium sm:text-xl">
+            <Plus size={22} aria-hidden className="mt-0.5 shrink-0 text-accent" />
+            <p className="leading-snug">
+              {profile.hero.tagline[0]}
+              <br />
+              <span className="text-muted">{profile.hero.tagline[1]}</span>
+            </p>
           </motion.div>
+        </div>
+
+        <motion.div variants={fadeUp} className="grid items-end gap-8 sm:grid-cols-3">
+          <div>
+            <p className="label flex items-center gap-2.5 text-foreground">
+              <span className="relative flex size-2">
+                <span className="absolute inset-0 [animation:pulse-ring_2s_ease-out_infinite] rounded-full bg-accent" />
+                <span className="relative size-2 rounded-full bg-accent" />
+              </span>
+              {profile.availability}
+            </p>
+            <p className="mt-3 max-w-[26ch] text-sm leading-relaxed text-muted">{profile.hero.focus}</p>
+          </div>
+          <div>
+            <p className="label text-muted">Based in</p>
+            <p className="mt-3 text-sm leading-relaxed font-medium">
+              {profile.hero.basedIn[0]}
+              <br />
+              {profile.hero.basedIn[1]}
+            </p>
+          </div>
+          <ButtonLink href="#projects" size="lg" className="justify-between sm:justify-self-end">
+            Explore my work
+            <ArrowDown size={16} aria-hidden className="ml-6 transition-transform group-hover:translate-y-0.5" />
+          </ButtonLink>
         </motion.div>
       </motion.div>
 
-      <motion.a
-        href="#about"
-        aria-label="Scroll to About section"
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.4 }}
-        className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 text-subtle transition-colors hover:text-foreground sm:block"
+        transition={{ delay: 0.5, duration: 0.8 }}
+        className="pointer-events-none absolute top-1/2 right-[-3%] -z-10 hidden w-[52%] max-w-[720px] -translate-y-1/2 lg:block"
       >
-        <motion.span
-          className="block"
-          animate={{ y: [0, 6, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <ArrowDown size={18} />
-        </motion.span>
-      </motion.a>
+        <motion.div style={reduce ? undefined : { y: graphY }} className="[perspective:1200px]">
+          <motion.div style={reduce ? undefined : { x: graphPX, y: graphPY, rotateX: graphRX, rotateY: graphRY }}>
+            <HeroGraph />
+          </motion.div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 }

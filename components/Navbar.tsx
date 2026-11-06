@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { FileText, Menu, X } from "lucide-react";
+import { ArrowUpRight, FileText, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { navItems, profile } from "@/data/profile";
 import { ThemeToggle } from "./ThemeToggle";
@@ -65,13 +65,13 @@ export function Navbar() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300 ${
-        scrolled || open ? "border-b border-border glass" : "border-b border-transparent"
+        scrolled || open ? "border-b border-border bg-background/90 backdrop-blur-md" : "border-b border-transparent"
       }`}
     >
       <nav aria-label="Primary" className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
         <a
           href="#top"
-          className="group flex items-center gap-2.5 font-semibold tracking-tight"
+          className="group flex items-center gap-2.5"
           onClick={() => setOpen(false)}
         >
           {/* eslint-disable-next-line @next/next/no-img-element -- static export, pre-sized asset */}
@@ -80,12 +80,12 @@ export function Navbar() {
             alt=""
             width={480}
             height={298}
-            className="-my-1 h-10 w-auto drop-shadow-[0_0_8px_rgb(139_149_255/0.5)] transition-transform duration-300 group-hover:-rotate-3 group-hover:scale-105 dark:drop-shadow-[0_0_14px_rgb(108_160_255/0.55)] not-dark:brightness-[0.82] not-dark:saturate-150"
+            className="-my-1 h-10 w-auto transition-transform duration-300 group-hover:-rotate-3 group-hover:scale-105 not-dark:brightness-[0.82] not-dark:saturate-150"
           />
-          <span className="whitespace-nowrap">{profile.name}</span>
+          <span className="text-[13px] font-bold tracking-[0.12em] whitespace-nowrap uppercase">{profile.name}</span>
         </a>
 
-        <ul className="hidden items-center gap-1 md:flex">
+        <ul className="hidden items-center gap-7 md:flex">
           {navItems.map((item) => {
             const isActive = active === item.href.slice(1);
             return (
@@ -93,17 +93,10 @@ export function Navbar() {
                 <a
                   href={item.href}
                   aria-current={isActive ? "location" : undefined}
-                  className={`relative rounded-full px-3.5 py-2 text-sm transition-colors ${
-                    isActive ? "text-foreground" : "text-muted hover:text-foreground"
+                  className={`label underline-offset-[6px] transition-colors hover:text-foreground ${
+                    isActive ? "text-foreground underline" : "text-muted"
                   }`}
                 >
-                  {isActive && (
-                    <motion.span
-                      layoutId="nav-active"
-                      className="absolute inset-0 -z-10 rounded-full bg-surface-2"
-                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                    />
-                  )}
                   {item.label}
                 </a>
               </li>
@@ -113,20 +106,24 @@ export function Navbar() {
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <span className="hidden sm:block">
-            <a
-              href={profile.resumePath}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={buttonClasses("primary", "sm")}
-            >
-              <FileText size={15} aria-hidden />
-              Resume
-            </a>
-          </span>
+          <a
+            href={profile.resumePath}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="label hidden px-2 text-muted transition-colors hover:text-foreground lg:block"
+          >
+            Résumé
+          </a>
+          <a
+            href="#contact"
+            className="hidden items-center gap-3 border-b border-foreground py-1 pl-1 text-sm font-semibold sm:inline-flex"
+          >
+            Let&apos;s talk
+            <ArrowUpRight size={15} aria-hidden />
+          </a>
           <button
             type="button"
-            className="inline-flex size-9 items-center justify-center rounded-full border border-border text-foreground md:hidden"
+            className="inline-flex size-9 items-center justify-center rounded-[3px] border border-border text-foreground md:hidden"
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? "Close menu" : "Open menu"}
@@ -153,7 +150,7 @@ export function Navbar() {
               animate="show"
               variants={{ show: { transition: { staggerChildren: 0.05, delayChildren: 0.1 } } }}
             >
-              {navItems.map((item, i) => (
+              {[...navItems, { label: "Contact", href: "#contact" }].map((item, i) => (
                 <motion.li key={item.href} variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }}>
                   <a
                     href={item.href}

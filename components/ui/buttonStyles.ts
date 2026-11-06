@@ -4,11 +4,11 @@ export type Variant = "primary" | "secondary" | "ghost";
 export type Size = "sm" | "md" | "lg";
 
 const base =
-  "group relative inline-flex items-center justify-center gap-2 rounded-full font-medium whitespace-nowrap transition-colors duration-200 disabled:pointer-events-none disabled:opacity-50";
+  "group relative inline-flex items-center justify-center gap-2 rounded-[3px] font-semibold whitespace-nowrap transition-colors duration-200 disabled:pointer-events-none disabled:opacity-50";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-foreground text-background hover:bg-foreground/90 shadow-card",
-  secondary: "border border-border-strong bg-surface/60 text-foreground hover:border-foreground/30 hover:bg-surface-2",
+  primary: "bg-accent text-accent-foreground hover:bg-accent/90",
+  secondary: "border border-border-strong text-foreground hover:border-foreground hover:bg-surface-2",
   ghost: "text-muted hover:text-foreground hover:bg-surface-2",
 };
 

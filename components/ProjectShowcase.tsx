@@ -9,17 +9,18 @@ export function ProjectShowcase() {
   return (
     <Section
       id="projects"
-      eyebrow="Featured Work"
+      number="01"
+      eyebrow="Selected work"
       title="Production platforms, not side projects."
       description="Learning platforms, national government sites, enterprise finance tooling, AI systems, and mobile apps — built and shipped with real teams."
     >
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-20">
         {featured.map((project, i) => (
           <ProjectCard key={project.slug} project={project} index={i} size="large" />
         ))}
       </div>
 
-      <div className="mt-6 grid gap-6 md:grid-cols-2">
+      <div className="mt-20 grid gap-x-10 gap-y-20 md:grid-cols-2">
         {more.map((project, i) => (
           <ProjectCard key={project.slug} project={project} index={featured.length + i} />
         ))}

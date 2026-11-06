@@ -3,46 +3,69 @@ import { navItems, profile, socialLinks } from "@/data/profile";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border">
-      <div className="mx-auto flex max-w-6xl flex-col gap-8 px-5 py-10 sm:px-8 md:flex-row md:items-center md:justify-between">
+    <footer className="bg-surface-2">
+      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:px-8 md:grid-cols-3">
         <div>
-          <p className="font-semibold tracking-tight">{profile.name}</p>
-          <p className="mt-1 text-sm text-subtle">{profile.positioning}</p>
+          <p className="label text-muted">{profile.title}</p>
+          <p className="mt-4 text-lg leading-snug font-semibold tracking-[-0.02em]">
+            {profile.hero.tagline[0]}
+            <br />
+            {profile.hero.tagline[1]}
+          </p>
         </div>
 
         <nav aria-label="Footer">
-          <ul className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-muted">
+          <ul className="space-y-2 text-sm font-medium">
             {navItems.map((item) => (
               <li key={item.href}>
-                <a href={item.href} className="transition-colors hover:text-foreground">
+                <a href={item.href} className="underline-offset-4 hover:underline">
                   {item.label}
                 </a>
               </li>
             ))}
-            {socialLinks
-              .filter((l) => l.icon !== "mail")
-              .map((l) => (
+            <li>
+              <a
+                href={profile.resumePath}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline-offset-4 hover:underline"
+              >
+                Resume
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <div>
+          <p className="label text-muted">Elsewhere</p>
+          <ul className="mt-4 space-y-2 text-sm font-medium">
+            {socialLinks.map((l) => {
+              const external = !l.href.startsWith("mailto:");
+              return (
                 <li key={l.label}>
                   <a
                     href={l.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="transition-colors hover:text-foreground"
+                    {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    className="underline-offset-4 hover:underline"
                   >
                     {l.label}
                   </a>
                 </li>
-              ))}
+              );
+            })}
           </ul>
-        </nav>
+        </div>
       </div>
-      <div className="mx-auto flex max-w-6xl items-center justify-between border-t border-border px-5 py-6 font-mono text-xs text-subtle sm:px-8">
-        <p>
-          © {new Date().getFullYear()} {profile.name}. Built with Next.js & Tailwind CSS.
-        </p>
-        <a href="#top" className="inline-flex items-center gap-1.5 transition-colors hover:text-foreground">
-          Back to top <ArrowUp size={12} aria-hidden />
-        </a>
+
+      <div className="border-t border-border">
+        <div className="label mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-5 text-muted sm:px-8">
+          <p>
+            © {new Date().getFullYear()} {profile.name}
+          </p>
+          <a href="#top" className="inline-flex items-center gap-1.5 hover:text-foreground">
+            Back to top <ArrowUp size={12} aria-hidden />
+          </a>
+        </div>
       </div>
     </footer>
   );
