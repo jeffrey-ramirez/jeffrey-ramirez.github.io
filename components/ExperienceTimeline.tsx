@@ -28,7 +28,7 @@ function ExperienceRow({ item, open, onToggle }: { item: Experience; open: boole
           <span>
             <span className="block text-xl font-bold tracking-[-0.02em] sm:text-2xl">{item.role}</span>
             <span className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
-              <span className="font-medium text-accent">{item.company}</span>
+              <span className="font-semibold">{item.company}</span>
               {item.employmentType && <span className="label text-muted">{item.employmentType}</span>}
             </span>
             <span className="mt-2 block text-sm text-muted">{item.summary}</span>

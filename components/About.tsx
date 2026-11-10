@@ -38,7 +38,7 @@ export function About() {
 
         <div>
           <Reveal>
-            <ArrowDownRight size={34} strokeWidth={1.5} aria-hidden className="mb-6 text-accent" />
+            <ArrowDownRight size={34} strokeWidth={1.5} aria-hidden className="mb-6 text-foreground" />
             <p className="text-2xl leading-snug font-semibold tracking-[-0.02em] text-pretty sm:text-3xl">
               {about.lead}
             </p>
@@ -67,7 +67,7 @@ export function About() {
             <ul className="mt-10 grid gap-8 sm:grid-cols-2" aria-label="Education and eligibility">
               {about.credentials.map((c) => (
                 <li key={c.label}>
-                  <p className="label text-accent">{c.label}</p>
+                  <p className="label text-muted">{c.label}</p>
                   <p className="mt-2 font-semibold">{c.title}</p>
                   <p className="mt-0.5 text-sm text-muted">
                     {c.detail} · {c.period}

@@ -16,7 +16,7 @@ export function EngineeringApproach() {
         {approach.map((step, i) => (
           <li key={step.number} className="border-t border-border-strong pt-5">
             <Reveal delay={i * 0.08} className="flex h-full flex-col">
-              <span className="label text-accent">{step.number}</span>
+              <span className="label text-muted">{step.number}</span>
               <h3 className="mt-8 text-2xl font-bold tracking-[-0.03em]">{step.title}</h3>
               <p className="mt-3 leading-relaxed text-pretty text-muted">{step.description}</p>
               <ul className="mt-auto space-y-1.5 pt-6">

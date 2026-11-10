@@ -37,7 +37,7 @@ export async function DeveloperActivity() {
         <Reveal className="min-w-0 rounded-md border border-border p-5 bg-surface sm:p-7">
           <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
             <p className="font-mono text-sm">
-              <span className="text-accent">$</span> git log --author=&quot;{profile.name}&quot; --since=1.year
+              <span className="text-muted">$</span> git log --author=&quot;{profile.name}&quot; --since=1.year
             </p>
             {activity.total !== null ? (
               <p className="font-mono text-xs text-subtle">

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Accent Board</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=JetBrains+Mono:wght@500&display=block" rel="stylesheet">
+<style>
+  :root { --paper: #f5f4f0; --ink: #1c1c1a; --muted: #55554f; --line: rgb(28 28 26 / 0.13); }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #e4e2db; color: var(--ink); font-family: Manrope, Arial, sans-serif; padding: 36px; }
+  .head { max-width: 1240px; margin: 0 auto 28px; display: flex; justify-content: space-between; align-items: end; gap: 24px; }
+  .head h1 { font-size: 34px; font-weight: 800; letter-spacing: -0.04em; }
+  .head p { color: var(--muted); max-width: 420px; line-height: 1.5; }
+  .grid { max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+  .card { background: var(--paper); border-radius: 6px; overflow: hidden; box-shadow: 0 1px 0 rgb(0 0 0 / 0.04); }
+  .hero { position: relative; padding: 20px 22px 22px; height: 300px; display: flex; flex-direction: column; }
+  .hero::before { content: ""; position: absolute; inset: 0 0 0 16%; background: #e9e7e0; }
+  .hero > * { position: relative; }
+  .nav { display: flex; justify-content: space-between; font: 500 9px "JetBrains Mono", monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .nav b { color: var(--ink); font-weight: 500; border-bottom: 1.5px solid var(--ink); padding-bottom: 2px; }
+  .name { margin-top: auto; font-size: 54px; line-height: .9; font-weight: 800; letter-spacing: -0.06em; }
+  .dot { display: inline-block; width: .14em; height: .14em; background: var(--a); margin-left: .05em; }
+  .tag { margin-top: 12px; font-size: 13px; font-weight: 700; }
+  .tag span { color: var(--muted); font-weight: 500; }
+  .foot { margin-top: 16px; display: flex; justify-content: space-between; align-items: center; }
+  .avail { font: 500 9px "JetBrains Mono", monospace; letter-spacing: .12em; text-transform: uppercase; display: flex; align-items: center; gap: 7px; }
+  .avail i { width: 7px; height: 7px; border-radius: 50%; background: var(--a); }
+  .btn { background: var(--a); color: var(--on); font-size: 12px; font-weight: 700; padding: 10px 16px; border-radius: 3px; }
+  .band { background: var(--a); color: var(--on); padding: 16px 22px; font-size: 22px; font-weight: 800; letter-spacing: -0.04em; }
+  .band span { color: transparent; -webkit-text-stroke: 1.2px var(--on); }
+  .meta { padding: 14px 22px 18px; border-top: 1px solid var(--line); }
+  .meta h2 { font-size: 15px; font-weight: 800; letter-spacing: -0.02em; }
+  .meta p { font-size: 12.5px; color: var(--muted); margin-top: 3px; line-height: 1.45; }
+  .swatches { display: flex; gap: 6px; margin-top: 12px; }
+  .sw { flex: 1; }
+  .sw div { height: 28px; border-radius: 3px; border: 1px solid var(--line); }
+  .sw small { display: block; margin-top: 4px; font: 500 9px "JetBrains Mono", monospace; color: var(--muted); }
+  .current { outline: 2px solid var(--ink); outline-offset: 4px; }
+  .badge { font: 500 9px "JetBrains Mono", monospace; letter-spacing: .12em; text-transform: uppercase; background: var(--ink); color: var(--paper); padding: 3px 7px; border-radius: 2px; margin-left: 8px; vertical-align: 2px; }
+</style>
+</head>
+<body>
+<div class="head">
+  <h1>One accent. Six directions.</h1>
+  <p>Same neutral layout every time. Only the accent changes: the dot after your name, the availability marker, the main button and the contact band.</p>
+</div>
+<div class="grid" id="grid"></div>
+<script>
+  const palettes = [
+    { name: "Cobalt", note: "Trustworthy and technical. Ties to your JR logo and photo background.", a: "#2743F0", on: "#FFFFFF", shades: ["#DDE2FD", "#1F36C4", "#142485"], current: true },
+    { name: "Vermillion", note: "Warm and energetic. Stands out from the usual blue developer sites.", a: "#E8461F", on: "#FFFFFF", shades: ["#FBE3DA", "#C93A17", "#8F2A10"] },
+    { name: "Scarlet", note: "Bold and confident. The highest-attention option.", a: "#D7262E", on: "#FFFFFF", shades: ["#F9DCDD", "#B81E25", "#7E151A"] },
+    { name: "Emerald", note: "Calm and dependable. Echoes the teal in your photo.", a: "#0F9D6E", on: "#FFFFFF", shades: ["#D6F1E6", "#0C8059", "#075A3F"] },
+    { name: "Electric lime", note: "Loud and modern. Needs dark text on top, never lime text on paper.", a: "#C8F031", on: "#1C1C1A", shades: ["#F1FBCF", "#A9CC1E", "#4D6B00"] },
+    { name: "Chocolate & tan", note: "Earthy and premium, from the reel's comments. Quieter attention.", a: "#5B3A29", on: "#F5F4F0", shades: ["#E9DCCB", "#4A2F21", "#C9A27A"] },
+  ];
+  const grid = document.getElementById("grid");
+  for (const p of palettes) {
+    const card = document.createElement("article");
+    card.className = "card" + (p.current ? " current" : "");
+    card.style.setProperty("--a", p.a);
+    card.style.setProperty("--on", p.on);
+    const labels = ["Accent", "Tint", "Hover", "Deep"];
+    const sw = [p.a, ...p.shades].map((c, i) => `<div class="sw"><div style="background:${c}"></div><small>${labels[i]} ${c}</small></div>`).join("");
+    card.innerHTML = `
+      <div class="hero">
+        <div class="nav"><span>Jeffrey Ramirez</span><b>Let's talk ↗</b></div>
+        <div class="name">Jeffrey<br>Ramirez<span class="dot"></span></div>
+        <div class="tag">+ I build fast, secure web apps,<br><span>from first component to database.</span></div>
+        <div class="foot"><span class="avail"><i></i>Available</span><span class="btn">Explore my work ↓</span></div>
+      </div>
+      <div class="band">Let's build something <span>solid.</span></div>
+      <div class="meta">
+        <h2>${p.name}${p.current ? '<span class="badge">Current</span>' : ""}</h2>
+        <p>${p.note}</p>
+        <div class="swatches">${sw}</div>
+      </div>`;
+    grid.appendChild(card);
+  }
+</script>
+</body>
+</html>

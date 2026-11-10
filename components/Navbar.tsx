@@ -4,6 +4,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, FileText, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { navItems, profile } from "@/data/profile";
+import { usePreloaderDone } from "./Preloader";
+import { SignatureLogo } from "./SignatureLogo";
 import { ThemeToggle } from "./ThemeToggle";
 import { buttonClasses } from "./ui/buttonStyles";
 
@@ -42,6 +44,7 @@ function useActiveSection() {
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const preloaderDone = usePreloaderDone();
   const active = useActiveSection();
 
   useEffect(() => {
@@ -74,13 +77,11 @@ export function Navbar() {
           className="group flex items-center gap-2.5"
           onClick={() => setOpen(false)}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element -- static export, pre-sized asset */}
-          <img
-            src="/logo-jr.webp"
-            alt=""
-            width={480}
-            height={298}
-            className="-my-1 h-10 w-auto transition-transform duration-300 group-hover:-rotate-3 group-hover:scale-105 not-dark:brightness-[0.82] not-dark:saturate-150"
+          <SignatureLogo
+            play={preloaderDone}
+            delay={0.35}
+            speed={1.6}
+            className="-my-1 h-10 w-auto text-foreground transition-transform duration-300 group-hover:-rotate-3 group-hover:scale-105"
           />
           <span className="text-[13px] font-bold tracking-[0.12em] whitespace-nowrap uppercase">{profile.name}</span>
         </a>

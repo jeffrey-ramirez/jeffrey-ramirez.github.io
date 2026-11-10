@@ -19,7 +19,7 @@ export function Section({ id, number, eyebrow, title, description, children, cla
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal className="mb-14 grid items-end gap-6 sm:mb-20 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-16">
           <div>
-            <p className="label mb-5 text-accent">
+            <p className="label mb-5 text-muted">
               {number} / {eyebrow}
             </p>
             <h2

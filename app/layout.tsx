@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist_Mono, Manrope } from "next/font/google";
+import { Preloader } from "@/components/Preloader";
 import { Providers } from "@/components/Providers";
 import { profile, siteUrl, socialLinks } from "@/data/profile";
 import "./globals.css";
@@ -91,6 +92,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
+        <noscript>
+          <style>{`.preloader{display:none!important}.sig-stroke{stroke-dasharray:none!important;opacity:1!important}.sig-dot{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
+        <Preloader />
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -80,7 +80,7 @@ export function ProjectCard({ project, index, size = "compact" }: ProjectCardPro
           )}
 
           <p className="mt-4 max-w-2xl text-sm leading-relaxed text-pretty">
-            <span className="label mr-2 text-accent">Key contribution</span>
+            <span className="label mr-2 text-muted">Key contribution</span>
             {project.keyContribution}
           </p>
 

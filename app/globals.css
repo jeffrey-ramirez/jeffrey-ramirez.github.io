@@ -13,7 +13,11 @@
   --subtle: #6f6f68;
   --border: rgb(28 28 26 / 0.13);
   --border-strong: rgb(28 28 26 / 0.26);
+  /* Cobalt and its adjacent shades */
   --accent: #2743f0;
+  --accent-hover: #1f36c4;
+  --accent-tint: #dde2fd;
+  --accent-deep: #142485;
   --accent-foreground: #ffffff;
   --accent-soft: rgb(39 67 240 / 0.1);
   --accent-2: #2743f0;
@@ -31,6 +35,9 @@
   --border: rgb(255 255 255 / 0.11);
   --border-strong: rgb(255 255 255 / 0.22);
   --accent: #8a9dff;
+  --accent-hover: #a5b4ff;
+  --accent-tint: rgb(138 157 255 / 0.16);
+  --accent-deep: #c9d1ff;
   --accent-foreground: #101014;
   --accent-soft: rgb(138 157 255 / 0.14);
   --accent-2: #8a9dff;
@@ -79,6 +86,9 @@
   --color-border-strong: var(--border-strong);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-tint: var(--accent-tint);
+  --color-accent-deep: var(--accent-deep);
   --color-accent-soft: var(--accent-soft);
   --color-accent-2: var(--accent-2);
   --font-sans: var(--font-manrope);
@@ -96,8 +106,8 @@ body {
 }
 
 ::selection {
-  background: var(--accent);
-  color: var(--accent-foreground);
+  background: var(--accent-tint);
+  color: var(--accent-deep);
 }
 
 :focus-visible {
@@ -144,3 +154,4 @@ body {
     opacity: 0;
   }
 }
+

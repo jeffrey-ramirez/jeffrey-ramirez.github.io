@@ -16,7 +16,7 @@ const fields: { name: keyof ContactInput; label: string; type?: string; autoComp
 ];
 
 const inputBase =
-  "w-full rounded-[3px] border bg-surface-2/60 px-4 text-[15px] text-foreground placeholder:text-subtle transition-colors outline-none focus:border-accent focus:bg-surface focus:ring-4 focus:ring-accent-soft";
+  "w-full rounded-[3px] border bg-surface-2/60 px-4 text-[15px] text-foreground placeholder:text-subtle transition-colors outline-none focus:border-accent focus:bg-surface focus:ring-4 focus:ring-accent-tint";
 
 export function ContactForm() {
   const formRef = useRef<HTMLFormElement>(null);
