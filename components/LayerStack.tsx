@@ -9,6 +9,7 @@ import {
   useTransform,
   type MotionValue,
 } from "framer-motion";
+import { useMediaQuery, WIDE_SCREEN } from "./ui/useMediaQuery";
 import { usePointerParallax } from "./ui/usePointerParallax";
 
 /**
@@ -137,7 +138,10 @@ export function LayerStack({ className = "" }: { className?: string }) {
   });
   // With reduced motion the stack holds still, half pulled apart so each layer reads clearly.
   const still = useMotionValue(0.5);
-  const spread = reduce ? still : progress;
+  // On phones and tablets the stack sits above other content, so it holds still there too.
+  const wide = useMediaQuery(WIDE_SCREEN);
+  const moving = wide && !reduce;
+  const spread = moving ? progress : still;
   const tiltX = useTransform(pointer.y, (v) => 56 - v * 14);
   const tiltZ = useTransform(pointer.x, (v) => -36 + v * 16);
   const stillX = useMotionValue(56);
@@ -150,8 +154,8 @@ export function LayerStack({ className = "" }: { className?: string }) {
   return (
     <div className={`[perspective:1600px] ${className}`} aria-hidden>
       <motion.div
-        className="relative mr-auto aspect-[3/2] w-[58%] max-w-[290px] [transform-style:preserve-3d]"
-        style={reduce ? { rotateX, rotateZ } : { rotateX, rotateZ, y: lift }}
+        className="relative mx-auto aspect-[3/2] w-[58%] max-w-[290px] [transform-style:preserve-3d] lg:mr-auto lg:ml-0"
+        style={moving ? { rotateX, rotateZ, y: lift } : { rotateX, rotateZ }}
       >
         {layers.map((layer) => (
           <Layer key={layer.id} layer={layer} spread={spread} tilt={{ rotateX, rotateZ }} />

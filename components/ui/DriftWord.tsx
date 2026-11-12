@@ -23,7 +23,7 @@ export function DriftWord({ word, drift = -0.25 }: Props) {
     <div
       ref={ref}
       aria-hidden
-      className="pointer-events-none absolute inset-x-0 top-10 -z-10 overflow-hidden select-none"
+      className="pointer-events-none absolute inset-x-0 top-10 -z-10 hidden overflow-hidden select-none sm:block"
     >
       <motion.p
         style={reduce ? undefined : { x }}

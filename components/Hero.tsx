@@ -7,6 +7,7 @@ import { openCommandMenu } from "./CommandMenu";
 import { LayerStack } from "./LayerStack";
 import { usePreloaderDone } from "./Preloader";
 import { ButtonLink } from "./ui/Button";
+import { useMediaQuery, WIDE_SCREEN } from "./ui/useMediaQuery";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -20,6 +21,8 @@ export function Hero() {
   // Hold the entrance until the preloader curtain starts lifting.
   const ready = usePreloaderDone();
   const reduce = useReducedMotion();
+  // The name's sideways drift only has room on wide screens; on a phone it would push "Jeffrey" off the edge.
+  const drift = useMediaQuery(WIDE_SCREEN) && !reduce;
   const { scrollY } = useScroll();
   // Each line of the name scrolls at its own speed, so the heading itself has depth.
   const firstX = useTransform(scrollY, [0, 700], [0, -60]);
@@ -39,7 +42,7 @@ export function Hero() {
       >
         <motion.div variants={fadeUp} className="flex justify-between gap-6 label text-muted">
           <p>{profile.title}</p>
-          <p>Portfolio — {new Date().getFullYear()}</p>
+          <p className="hidden sm:block">Portfolio — {new Date().getFullYear()}</p>
         </motion.div>
 
         <div className="grid flex-1 items-center gap-10 py-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
@@ -49,10 +52,10 @@ export function Hero() {
               variants={fadeUp}
               className="text-[clamp(3.6rem,11vw,8.8rem)] leading-[0.92] font-extrabold tracking-[-0.06em]"
             >
-              <motion.span className="block" style={reduce ? undefined : { x: firstX }}>
+              <motion.span className="block" style={drift ? { x: firstX } : undefined}>
                 {first}
               </motion.span>
-              <motion.span className="block" style={reduce ? undefined : { x: lastX }}>
+              <motion.span className="block" style={drift ? { x: lastX } : undefined}>
                 {last}
                 <span aria-hidden className="ml-[0.05em] inline-block size-[0.14em] bg-accent" />
               </motion.span>
@@ -65,9 +68,10 @@ export function Hero() {
 
           <motion.div
             variants={{ hidden: { opacity: 0, y: 40 }, show: { opacity: 1, y: 0, transition: { duration: 1, ease } } }}
-            className="px-6 pb-10 sm:px-12 lg:px-0"
+            className="px-2 pt-32 pb-40 sm:px-12 sm:pt-28 sm:pb-36 lg:px-0 lg:pt-0 lg:pb-10"
           >
-            <LayerStack />
+            {/* Shifted left on narrow screens so the layers and their labels, together, sit centered. */}
+            <LayerStack className="-translate-x-[15%] lg:translate-x-0" />
           </motion.div>
         </div>
 
@@ -85,7 +89,7 @@ export function Hero() {
           <button
             type="button"
             onClick={openCommandMenu}
-            className="group flex items-center gap-3 text-left text-sm text-muted transition-colors hover:text-foreground"
+            className="group hidden items-center gap-3 text-left text-sm text-muted transition-colors hover:text-foreground md:flex"
           >
             <kbd className="inline-flex items-center gap-1 rounded-[3px] border border-border-strong px-2 py-1 font-mono text-xs text-foreground">
               <Command size={12} aria-hidden />K

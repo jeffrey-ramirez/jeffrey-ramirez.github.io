@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Profile Banner</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Geist+Mono:wght@500&display=block" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f4f0; --surface: #fbfaf7; --surface-2: #e9e7e0; --fg: #1c1c1a; --muted: #55554f;
+    --subtle: #6f6f68; --border: rgb(28 28 26 / .13); --border-strong: rgb(28 28 26 / .26); --accent: #2743f0;
+    /* Banner size comes from the URL hash, e.g. #1584x396 (LinkedIn) or #1500x500. */
+    --w: 1584px; --h: 396px;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: var(--w); height: var(--h); overflow: hidden; background: var(--bg); }
+  body { font-family: Manrope, sans-serif; color: var(--fg); -webkit-font-smoothing: antialiased; position: relative; }
+  .mono { font-family: "Geist Mono", monospace; font-weight: 500; text-transform: uppercase; letter-spacing: .14em; font-size: 12px; color: var(--muted); }
+
+  /* Faint ruled paper, fading toward the left where the profile photo sits. */
+  .rules { position: absolute; inset: 0; background-image: linear-gradient(var(--border) 1px, transparent 1px); background-size: 100% 44px; mask-image: linear-gradient(90deg, transparent 20%, #000 60%); opacity: .55; }
+
+  .copy { position: absolute; left: 36%; top: 50%; transform: translateY(-50%); width: 34%; }
+  .copy .logo { display: flex; align-items: center; gap: 12px; }
+  .copy .logo svg { height: 46px; width: auto; }
+  .copy h1 { margin-top: 22px; font-size: 34px; line-height: 1.12; font-weight: 800; letter-spacing: -0.035em; }
+  .copy h1 span { color: var(--muted); font-weight: 600; }
+  .copy .url { margin-top: 22px; display: flex; align-items: center; gap: 10px; }
+  .copy .url i { width: 9px; height: 9px; background: var(--accent); display: inline-block; }
+
+  /* The full stack as three layers, the same idea as the portfolio hero. */
+  .stage { position: absolute; right: 15%; top: 50%; width: 14%; aspect-ratio: 3 / 2; transform: translateY(-46%); perspective: 1600px; }
+  .stack { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(56deg) rotateZ(-36deg); }
+  .layer { position: absolute; inset: 0; border-radius: 6px; transform-style: preserve-3d; }
+  .ui { transform: translateZ(78px); background: var(--surface); border: 1px solid var(--border-strong); box-shadow: 0 40px 60px -30px rgb(0 0 0 / .35); }
+  .api { transform: translateZ(0); background: var(--fg); box-shadow: 0 40px 60px -30px rgb(0 0 0 / .4); padding: 10px; font: 500 9px/1.5 "Geist Mono", monospace; color: rgb(245 244 240 / .7); }
+  .data { transform: translateZ(-78px); background: var(--surface-2); border: 1px solid var(--border-strong); }
+  .bar { display: flex; gap: 5px; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  .bar b { width: 6px; height: 6px; border-radius: 50%; background: var(--border-strong); }
+  .ui .body { padding: 12px; }
+  .ui .h { height: 10px; width: 66%; background: var(--fg); border-radius: 2px; }
+  .ui .s { margin-top: 7px; height: 7px; width: 48%; background: var(--border-strong); border-radius: 2px; }
+  .ui .btn { margin-top: 12px; width: 56px; height: 16px; background: var(--accent); border-radius: 2px; }
+  .ui .cards { margin-top: 12px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .ui .cards div { height: 22px; background: var(--surface-2); border-radius: 2px; }
+  .api p:first-child { color: var(--bg); }
+  .data .head { padding: 7px 10px; border-bottom: 1px solid var(--border-strong); font-size: 10px; }
+  .data .grid { display: grid; grid-template-columns: 1fr 2fr 1fr; }
+  .data .grid div { height: 15px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+  /* Labels sit flat beside the stack, lined up with each layer's right edge. */
+  .tags { position: absolute; inset: 0; pointer-events: none; }
+  .tag { position: absolute; left: 1336px; transform: translateY(-50%); display: flex; align-items: center; }
+  .tag .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--fg); transform: translateX(-50%); }
+  .tag .line { width: 20px; height: 1px; background: var(--border-strong); }
+  .tag .card { font-family: Manrope, sans-serif; letter-spacing: normal; text-transform: none; color: var(--fg); line-height: 1.25; background: rgb(245 244 240 / .92); border: 1px solid var(--border); border-radius: 3px; padding: 5px 9px; white-space: nowrap; font-size: 13px; font-weight: 700; }
+  .tag .card small { font: 500 10px "Geist Mono", monospace; color: var(--subtle); margin-right: 5px; }
+  .tag .card em { font-family: Manrope, sans-serif; display: block; font-style: normal; font-size: 10.5px; font-weight: 500; color: var(--muted); margin-top: 1px; }
+</style>
+</head>
+<body>
+  <div class="rules"></div>
+
+  <div class="copy">
+    <div class="logo">
+      <svg viewBox="3 14 52 58" aria-hidden="true"><path d="M6 46 C11 40 18 31 24.5 28 C22.5 36 19.5 48 16.5 60 C15.5 65 13.5 69 10.5 68 C7.5 67 8 62 12 59 C17 55 24 51 29 47 C32 41 34 34 36 28 C36.5 30.5 37 32 38.5 32 C40.5 29.5 43 28.5 45.5 30 C44.5 36 42.5 42 41.5 48 C43.5 46.5 47 44 52 42" fill="none" stroke="#1c1c1a" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><rect x="24.5" y="16.5" width="6" height="6" fill="#2743f0"/></svg>
+      <span class="mono">Senior Frontend · Full-Stack</span>
+    </div>
+    <h1>I build fast, secure web apps, <span>from first component to database.</span></h1>
+    <p class="url mono"><i></i>jeffrey-ramirez.github.io</p>
+  </div>
+
+  <div class="stage">
+    <div class="stack">
+      <div class="layer data">
+        <p class="head mono">table · projects</p>
+        <div class="grid"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+      </div>
+      <div class="layer api">
+        <p>GET /api/projects <span style="opacity:.6">200 · 38ms</span></p>
+        <p>{</p><p>&nbsp;&nbsp;"stack": ["next", "django"],</p><p>&nbsp;&nbsp;"shipped": true</p><p>}</p>
+      </div>
+      <div class="layer ui">
+        <div class="bar"><b></b><b></b><b></b></div>
+        <div class="body"><div class="h"></div><div class="s"></div><div class="btn"></div><div class="cards"><div></div><div></div><div></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tags">
+    <div class="tag" style="top:109px"><span class="dot"></span><span class="line"></span><span class="card"><small>03</small>Interface<em>React · Next.js · WordPress</em></span></div>
+    <div class="tag" style="top:175px"><span class="dot"></span><span class="line"></span><span class="card"><small>02</small>API<em>Django REST · Node.js</em></span></div>
+    <div class="tag" style="top:238px"><span class="dot"></span><span class="line"></span><span class="card"><small>01</small>Data<em>PostgreSQL · MongoDB · Supabase</em></span></div>
+  </div>
+
+  <script>
+    const m = location.hash.match(/(\d+)x(\d+)/);
+    if (m) {
+      document.documentElement.style.setProperty("--w", m[1] + "px");
+      document.documentElement.style.setProperty("--h", m[2] + "px");
+    }
+  </script>
+</body>
+</html>
