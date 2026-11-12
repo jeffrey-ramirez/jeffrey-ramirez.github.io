@@ -8,7 +8,7 @@ export function Contact() {
     <section id="contact" aria-labelledby="contact-heading" className="band-accent py-24 sm:py-32">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal>
-          <div className="label flex flex-wrap justify-between gap-4 text-subtle">
+          <div className="flex flex-wrap justify-between gap-4 label text-subtle">
             <p>07 / What&apos;s next?</p>
             <p className="flex items-center gap-2.5">
               <span aria-hidden className="size-2 rounded-full bg-white" />

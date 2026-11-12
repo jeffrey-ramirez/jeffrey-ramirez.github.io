@@ -58,7 +58,7 @@ export function Footer() {
       </div>
 
       <div className="border-t border-border">
-        <div className="label mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-5 text-muted sm:px-8">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-5 label text-muted sm:px-8">
           <p>
             © {new Date().getFullYear()} {profile.name}
           </p>

@@ -1,10 +1,11 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUpRight, FileText, Menu, X } from "lucide-react";
+import { ArrowUpRight, Command, FileText, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { navItems, profile } from "@/data/profile";
-import { usePreloaderDone } from "./Preloader";
+import { openCommandMenu } from "./CommandMenu";
+import { usePreloaderLanded } from "./Preloader";
 import { SignatureLogo } from "./SignatureLogo";
 import { ThemeToggle } from "./ThemeToggle";
 import { buttonClasses } from "./ui/buttonStyles";
@@ -44,7 +45,8 @@ function useActiveSection() {
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const preloaderDone = usePreloaderDone();
+  // The loader's signature flies into this spot; the navbar logo appears as it lands.
+  const logoLanded = usePreloaderLanded();
   const active = useActiveSection();
 
   useEffect(() => {
@@ -72,17 +74,13 @@ export function Navbar() {
       }`}
     >
       <nav aria-label="Primary" className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
-        <a
-          href="#top"
-          className="group flex items-center gap-2.5"
-          onClick={() => setOpen(false)}
-        >
-          <SignatureLogo
-            play={preloaderDone}
-            delay={0.35}
-            speed={1.6}
-            className="-my-1 h-10 w-auto text-foreground transition-transform duration-300 group-hover:-rotate-3 group-hover:scale-105"
-          />
+        <a href="#top" className="group flex items-center gap-2.5" onClick={() => setOpen(false)}>
+          <span data-logo-target className={`-my-1 block ${logoLanded ? "" : "opacity-0"}`}>
+            <SignatureLogo
+              drawn
+              className="block h-10 w-auto text-foreground transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-3"
+            />
+          </span>
           <span className="text-[13px] font-bold tracking-[0.12em] whitespace-nowrap uppercase">{profile.name}</span>
         </a>
 
@@ -107,11 +105,23 @@ export function Navbar() {
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
+          <button
+            type="button"
+            onClick={openCommandMenu}
+            aria-label="Open command menu"
+            aria-keyshortcuts="Control+K Meta+K"
+            className="hidden items-center gap-1.5 rounded-[3px] border border-border px-2 py-1.5 label text-muted transition-colors hover:border-border-strong hover:text-foreground md:inline-flex"
+          >
+            Menu
+            <span className="inline-flex items-center gap-0.5 text-subtle">
+              <Command size={11} aria-hidden />K
+            </span>
+          </button>
           <a
             href={profile.resumePath}
             target="_blank"
             rel="noopener noreferrer"
-            className="label hidden px-2 text-muted transition-colors hover:text-foreground lg:block"
+            className="hidden px-2 label text-muted transition-colors hover:text-foreground lg:block"
           >
             Résumé
           </a>

@@ -29,7 +29,7 @@ export function About() {
               height={720}
               className="aspect-square w-full rounded-md object-cover"
             />
-            <figcaption className="label mt-4 flex justify-between gap-4 text-muted">
+            <figcaption className="mt-4 flex justify-between gap-4 label text-muted">
               <span>{profile.name}</span>
               <span>{profile.title}</span>
             </figcaption>
@@ -78,7 +78,7 @@ export function About() {
           </Reveal>
 
           <Reveal delay={0.3}>
-            <p className="label mt-10 border-t border-border pt-5 leading-loose text-muted">
+            <p className="mt-10 border-t border-border pt-5 label leading-loose text-muted">
               <span className="sr-only">Focus areas: </span>
               {about.focus.join(" · ")}
             </p>

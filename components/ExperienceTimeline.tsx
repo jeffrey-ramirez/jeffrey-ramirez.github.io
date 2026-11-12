@@ -22,7 +22,7 @@ function ExperienceRow({ item, open, onToggle }: { item: Experience; open: boole
           onClick={onToggle}
           className="grid w-full items-start gap-x-8 gap-y-1 py-6 text-left sm:grid-cols-[190px_minmax(0,1fr)_2rem]"
         >
-          <span className="label pt-1.5 text-muted">
+          <span className="pt-1.5 label text-muted">
             {item.start} — {item.end}
           </span>
           <span>
@@ -64,7 +64,7 @@ function ExperienceRow({ item, open, onToggle }: { item: Experience; open: boole
                   </li>
                 ))}
               </ul>
-              <p className="label mt-5 text-muted">
+              <p className="mt-5 label text-muted">
                 <span className="sr-only">Technologies: </span>
                 {item.technologies.join(" · ")}
               </p>
@@ -82,8 +82,9 @@ export function ExperienceTimeline() {
   return (
     <Section
       id="experience"
-      number="04"
+      number="05"
       eyebrow="Experience"
+      backdrop="Path"
       title="Government, enterprise, education, and AI."
       description="Select a role to see what I owned and the stack I worked in."
     >

@@ -48,7 +48,7 @@ export function ProjectCard({ project, index, size = "compact" }: ProjectCardPro
       )}
 
       <div className={`flex flex-1 gap-5 pt-6 ${large ? "sm:gap-10" : ""}`}>
-        <p className="label pt-1.5 text-muted">/{String(index + 1).padStart(2, "0")}</p>
+        <p className="pt-1.5 label text-muted">/{String(index + 1).padStart(2, "0")}</p>
 
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-3">
@@ -60,7 +60,7 @@ export function ProjectCard({ project, index, size = "compact" }: ProjectCardPro
               <span className="font-medium text-muted"> — {project.tagline}</span>
             </h3>
             {project.company && (
-              <span className="label rounded-full border border-border-strong px-3 py-1 whitespace-nowrap text-muted">
+              <span className="rounded-full border border-border-strong px-3 py-1 label whitespace-nowrap text-muted">
                 {project.company}
               </span>
             )}
@@ -80,7 +80,7 @@ export function ProjectCard({ project, index, size = "compact" }: ProjectCardPro
           )}
 
           <p className="mt-4 max-w-2xl text-sm leading-relaxed text-pretty">
-            <span className="label mr-2 text-muted">Key contribution</span>
+            <span className="mr-2 label text-muted">Key contribution</span>
             {project.keyContribution}
           </p>
 

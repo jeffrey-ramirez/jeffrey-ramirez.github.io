@@ -19,6 +19,8 @@ export const SIGNATURE_DURATION = WRITE + LIFT + TAP;
 type Props = {
   /** Start writing. Until then the mark stays hidden (unless reduced motion is on). */
   play?: boolean;
+  /** Render already written, with no animation. */
+  drawn?: boolean;
   /** Seconds to wait before the pen starts. */
   delay?: number;
   /** Values above 1 write faster. */
@@ -27,16 +29,18 @@ type Props = {
   title?: string;
 };
 
-// Memoised so a parent re-rendering every frame (the preloader's counter) never touches it.
+// Memoised so parent re-renders never restart the pen.
 export const SignatureLogo = memo(function SignatureLogo({
   play = true,
+  drawn = false,
   delay = 0,
   speed = 1,
   className,
   title,
 }: Props) {
   const reduce = useReducedMotion();
-  const animate = play && !reduce;
+  const still = reduce || drawn;
+  const animate = play && !still;
   const tapAt = delay + (WRITE + LIFT) / speed;
 
   return (
@@ -55,7 +59,7 @@ export const SignatureLogo = memo(function SignatureLogo({
         strokeWidth={3.4}
         strokeLinecap="round"
         strokeLinejoin="round"
-        initial={reduce ? false : { pathLength: 0, opacity: 0 }}
+        initial={still ? false : { pathLength: 0, opacity: 0 }}
         animate={animate ? { pathLength: 1, opacity: 1 } : undefined}
         transition={{
           // Quick to start, an even hand through the letters, easing off on the flick.
@@ -71,7 +75,7 @@ export const SignatureLogo = memo(function SignatureLogo({
         width="6"
         height="6"
         style={{ transformBox: "fill-box", transformOrigin: "center" }}
-        initial={reduce ? false : { scale: 0, opacity: 0 }}
+        initial={still ? false : { scale: 0, opacity: 0 }}
         animate={animate ? { scale: 1, opacity: 1 } : undefined}
         transition={{
           scale: { delay: tapAt, type: "spring", stiffness: 520, damping: 18 },

@@ -93,7 +93,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to content
         </a>
         <noscript>
-          <style>{`.preloader{display:none!important}.sig-stroke{stroke-dasharray:none!important;opacity:1!important}.sig-dot{opacity:1!important;transform:none!important}`}</style>
+          <style>{`.preloader{display:none!important}.sig-stroke{stroke-dasharray:none!important;opacity:1!important}.sig-dot{opacity:1!important;transform:none!important}[data-logo-target]{opacity:1!important}`}</style>
         </noscript>
         <Preloader />
         <Providers>{children}</Providers>

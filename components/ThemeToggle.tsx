@@ -1,44 +1,44 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useSyncExternalStore } from "react";
 
 const subscribe = () => () => {};
 
+/** A little wall switch: flick it and the lights go off (or on). */
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
-  // Theme is unknown during SSR; render a stable placeholder until hydrated.
+  // Theme is unknown during SSR; render the switch in a neutral state until hydrated.
   const mounted = useSyncExternalStore(
     subscribe,
     () => true,
     () => false,
   );
-  const isDark = resolvedTheme !== "light";
+  const isDark = mounted && resolvedTheme === "dark";
 
   return (
     <button
       type="button"
+      role="switch"
+      aria-checked={isDark}
+      aria-label="Dark mode"
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      aria-label={mounted ? `Switch to ${isDark ? "light" : "dark"} mode` : "Toggle color theme"}
-      className="relative inline-flex size-9 items-center justify-center overflow-hidden rounded-full border border-border text-muted transition-colors hover:border-border-strong hover:text-foreground"
+      className="group relative inline-flex h-7 w-12 shrink-0 items-center rounded-full border border-border-strong bg-surface-2 px-0.5 transition-colors hover:border-foreground/40"
     >
-      {mounted ? (
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.span
-            key={isDark ? "moon" : "sun"}
-            initial={{ y: 14, opacity: 0, rotate: -45 }}
-            animate={{ y: 0, opacity: 1, rotate: 0 }}
-            exit={{ y: -14, opacity: 0, rotate: 45 }}
-            transition={{ duration: 0.2 }}
-          >
-            {isDark ? <Moon size={16} /> : <Sun size={16} />}
-          </motion.span>
-        </AnimatePresence>
-      ) : (
-        <span className="size-4" />
-      )}
+      <Sun size={11} aria-hidden className="absolute left-1.5 text-subtle" />
+      <Moon size={11} aria-hidden className="absolute right-1.5 text-subtle" />
+      <motion.span
+        aria-hidden
+        className="relative z-10 flex size-[22px] items-center justify-center rounded-full bg-foreground text-background shadow-sm"
+        initial={false}
+        animate={{ x: isDark ? 20 : 0 }}
+        transition={{ type: "spring", stiffness: 600, damping: 30 }}
+        whileTap={{ scale: 0.88 }}
+      >
+        {mounted ? isDark ? <Moon size={11} /> : <Sun size={11} /> : null}
+      </motion.span>
     </button>
   );
 }

@@ -6,7 +6,7 @@ export function EngineeringApproach() {
   return (
     <Section
       id="approach"
-      number="05"
+      number="06"
       eyebrow="How I work"
       title="A loop, not a checklist."
       description="Every shipped feature feeds the next round of understanding."
