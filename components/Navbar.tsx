@@ -81,7 +81,8 @@ export function Navbar() {
               className="block h-10 w-auto text-foreground transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-3"
             />
           </span>
-          <span className="text-[13px] font-bold tracking-[0.12em] whitespace-nowrap uppercase">{profile.name}</span>
+          {/* The logo alone carries the brand; the name stays for screen readers. */}
+          <span className="sr-only">{profile.name}, back to top</span>
         </a>
 
         <ul className="hidden items-center gap-7 md:flex">
